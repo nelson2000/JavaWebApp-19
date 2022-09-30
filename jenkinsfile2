@@ -4,11 +4,7 @@ pipeline{
     maven "maven38"
   }
   stages{
-    stage("1.CodeClone"){
-      steps{
-        git credentialsId: 'Github-Cred', url: 'https://github.com/team16flight/web-app.git'
-      }
-    }
+  
     stage("2.Build"){
       steps{
         sh "mvn clean package"
@@ -16,17 +12,21 @@ pipeline{
     }
     stage("3.CodeQuality"){
       steps{
-        sh "mvn sonar:sonar"
+      
+        echo "This is code quality check"
+        //sh "mvn sonar:sonar"
       }
     }
     stage("4.Artifacts"){
       steps{
-        sh "mvn deploy"
+      echo "This is artifact depostion"
+        //sh "mvn deploy"
       }
     }
     stage("5.DeploytoUAT"){
       steps{
-        deploy adapters: [tomcat9(credentialsId: 'tomcat-cred', path: '', url: 'http://54.226.118.23:8080/')], contextPath: null, war: 'target/*.war'
+      echo "This is deployment to Tomcat"
+        //deploy adapters: [tomcat9(credentialsId: 'tomcat-cred', path: '', url: 'http://54.226.118.23:8080/')], contextPath: null, war: 'target/*.war'
       }
     }
     stage("6.Approval"){
@@ -38,12 +38,14 @@ pipeline{
   }
     stage("7.deploytoPROD"){
       steps{
-        deploy adapters: [tomcat9(credentialsId: 'tomcat-cred', path: '', url: 'http://54.226.118.23:8080/')], contextPath: null, war: 'target/*.war'
+      echo "Another deployment to Tomcat"
+        //deploy adapters: [tomcat9(credentialsId: 'tomcat-cred', path: '', url: 'http://54.226.118.23:8080/')], contextPath: null, war: 'target/*.war'
       }
     }
     stage("8.EmailNotification"){
       steps{
-        emailext body: 'This is Build Success', subject: 'Build Success', to: 'info@acadalearning.com'
+      sh "This is email notification"
+        //emailext body: 'This is Build Success', subject: 'Build Success', to: 'info@acadalearning.com'
       }
     }
   }
