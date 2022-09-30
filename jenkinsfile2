@@ -44,7 +44,7 @@ pipeline{
     }
     stage("8.EmailNotification"){
       steps{
-      sh "This is email notification"
+       echo "This is email notification"
         //emailext body: 'This is Build Success', subject: 'Build Success', to: 'info@acadalearning.com'
       }
     }
